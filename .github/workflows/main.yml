@@ -91,12 +91,8 @@ jobs:
     
 
       - name: Login to registry
-        run: |
-          kubectl create secret docker-registry -h regcred \
-            --docker-server=${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com \
-            --docker-username=AWS \
-            --docker-password=$(aws ecr get-login-password) \
-            --docker-email=unused
+        run: kubectl create secret docker-registry regcred --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password) --docker-email=unused
+
 
 
 
