@@ -92,10 +92,13 @@ jobs:
 
       - name: Login to registry
         run: |
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | kubectl create secret docker-registry regcred \
+          echo -n "$(aws ecr get-login-password --region ${{ env.AWS_REGION }})" > /tmp/container-registry-password
+          kubectl create secret docker-registry regcred \
             --docker-server=${{ secrets.REGISTRY }} \
             --docker-username=AWS \
-            --docker-password-stdin
+            --docker-password=unused \
+            --from-file=.dockerconfigjson=/tmp/container-registry-password \
+            --type=kubernetes.io/dockerconfigjson
 
 
       - name: Deploy helm
