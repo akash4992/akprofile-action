@@ -70,14 +70,6 @@ jobs:
           daemon_off: false
           dockerfile: ./Dockerfile
           context: ./
-  deleteSecret:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Delete existing secret
-        run: kubectl delete secret regcred
   DeployToEks:
     needs: BUILD_AND_PUBLISH
     runs-on: ubuntu-latest
@@ -97,7 +89,8 @@ jobs:
       - name: Print kube config file
         run: cat ~/.kube/config
 
-    
+      - name: Delete existing secret
+        run: kubectl delete secret regcred
       - name: Login to registry
         run: |
           kubectl create secret docker-registry regcred \
