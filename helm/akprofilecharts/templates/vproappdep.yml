@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: vproapp
-        image: {{ .Values.appimage }}:{{ .Values.apptag }}
+        image: akprofilepp:latest
         
         ports:
         - name: vproapp-port
